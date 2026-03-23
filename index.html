@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- GOOGLE SHEETS: Paste your Apps Script Web App URL below -->
+    <meta name="google-script-url" content="https://script.google.com/macros/s/AKfycbxuH1Bk-E4Wp4w7tW3i4d571m-iVpK2o5I_qYd_D9vFODVVpmAQvIlOvTqDjLPf2iVGqQ/exec">
     <title>Khảo sát về Bình đẳng Giới trong Quản trị Chuỗi Cung ứng</title>
     <style>
         :root {
@@ -847,7 +849,7 @@
                 &#9432; <strong>Hướng dẫn:</strong><br>
                 1. Mở Google Sheets mới &rarr; Extensions &rarr; Apps Script<br>
                 2. Dán đoạn mã bên dưới &rarr; Deploy &rarr; New deployment &rarr; Web app (Anyone)<br>
-                3. Copy URL và dán vào ô trên<br>
+                3. Copy URL và dán vào ô trên, hoặc chỉnh sửa thẻ <code>&lt;meta name="google-script-url"&gt;</code> trong mã HTML<br>
                 <button class="btn btn-sm" style="font-size:11px; padding:3px 10px; margin-top:6px; background:#f0f2f8; color:var(--primary); border:1px solid var(--border);" onclick="showAppsScript()">&#128203; Xem mã Apps Script</button>
             </div>
         </div>
@@ -904,9 +906,9 @@
         let customQuestions = JSON.parse(localStorage.getItem('survey_custom_questions') || '[]');
         let responses = JSON.parse(localStorage.getItem('survey_responses') || '[]');
 
-        // IMPORTANT: Paste your Google Apps Script Web App URL here
-        // This is hardcoded so ALL respondents will send data to your Google Sheet
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx.../exec';'; // <-- PASTE YOUR URL HERE
+        // Read Google Script URL from <meta> tag (safe, no quote issues)
+        const metaUrl = document.querySelector('meta[name="google-script-url"]');
+        const GOOGLE_SCRIPT_URL = (metaUrl && metaUrl.getAttribute('content')) || '';
 
         let googleScriptUrl = GOOGLE_SCRIPT_URL || localStorage.getItem('survey_google_url') || '';
 
